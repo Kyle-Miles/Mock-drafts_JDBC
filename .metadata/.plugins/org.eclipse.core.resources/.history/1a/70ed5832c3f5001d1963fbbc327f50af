@@ -1,0 +1,47 @@
+package com.kylemiles.mockdraftsjdbc.dao;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Component;
+
+import com.kylemiles.mockdraftsjdbc.entity.Conference;
+import com.kylemiles.mockdraftsjdbc.entity.Division;
+import com.kylemiles.mockdraftsjdbc.entity.Team;
+import com.kylemiles.mockdraftsjdbc.entity.TeamName;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Component
+@Slf4j
+public class DefaultTeamDao implements TeamDao {
+	
+	@Autowired
+	private NamedParameterJdbcTemplate jdbcTemplate;
+
+	@Override
+	public List<Team> getTeams() {
+		log.info("Dao fetch Teams");
+		
+		String sql = "SELECT * FROM team";
+		
+		
+		return jdbcTemplate.query(sql, new RowMapper<>() {
+			@Override
+			public Team mapRow(ResultSet rs, int rowNum) throws SQLException {
+				
+				return Team.builder()
+						.teamPK(rs.getLong("team_pk"))
+						.teamname(TeamName.valueOf(rs.getString("team_name")))
+						.teamConference(Conference.valueOf(rs.getString("team_conference")))
+						.teamDivision(Division.valueOf(rs.getString("team_division")))
+						.build();
+			}   
+		});
+	}
+
+}

@@ -1,0 +1,40 @@
+package com.kylemiles.mockdraftsjdbc.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.kylemiles.mockdraftsjdbc.entity.Draft;
+import com.kylemiles.mockdraftsjdbc.entity.MockDraft;
+import com.kylemiles.mockdraftsjdbc.entity.Player;
+import com.kylemiles.mockdraftsjdbc.entity.Team;
+import com.kylemiles.mockdraftsjdbc.service.DraftService;
+import com.kylemiles.mockdraftsjdbc.service.MockDraftService;
+
+import lombok.extern.slf4j.Slf4j;
+
+@RestController
+@Slf4j
+public class DefaultMockDraftController implements MockDraftController {
+	
+	@Autowired
+	private MockDraftService draftService;
+	
+	public DefaultMockDraftController(MockDraftService draftService) {
+		this.draftService = draftService;
+	}
+
+	@Override
+	public List<MockDraft> getMockDrafts() {
+		log.info("Controller fetch Mock Drafts");
+		return draftService.getMockDrafts();
+	}
+
+	@Override
+	public MockDraft createMockDraft(Team team, Draft draft, Player player) {
+		log.info("Controller create Mock Draft");
+		return draftService.createMockDraft(team, draft, player);
+	}
+
+}

@@ -1,0 +1,8 @@
+1684523382424	Rename type 'TeamService'
+1684523500273	Rename type 'NeedsService'
+1684525374721	Rename field 'needsService'
+1684525558234	Rename field 'needsDao'
+1684620529650	Rename type 'TeamNameDTO'
+1684620611928	Move compilation unit
+1684624799957	Delete element
+1684624807202	Delete element

@@ -1,0 +1,35 @@
+package com.kylemiles.mockdraftsjdbc.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.kylemiles.mockdraftsjdbc.entity.Player;
+import com.kylemiles.mockdraftsjdbc.entity.Position;
+import com.kylemiles.mockdraftsjdbc.service.PlayerService;
+
+import lombok.extern.slf4j.Slf4j;
+
+@RestController
+@Slf4j
+public class DefaultPlayerController implements PlayerController {
+	
+	@Autowired
+	private PlayerService playerService;
+	
+	public DefaultPlayerController(PlayerService playerService) {
+		this.playerService = playerService;
+	}
+
+	@Override
+	public List<Player> getPlayers() {
+		String playerName = "";
+		String college = "";
+		Position position = Position.valueOf("");
+		int rank = 0;
+		log.info("Controller fetch Players playerName={}, position={}, college={}, rank={}", playerName, position, college, rank);
+		return playerService.getPlayers();
+	}
+
+}

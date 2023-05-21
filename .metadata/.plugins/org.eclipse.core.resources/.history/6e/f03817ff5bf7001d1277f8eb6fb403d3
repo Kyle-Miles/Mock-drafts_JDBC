@@ -1,0 +1,19 @@
+package com.kylemiles.mockdraftsjdbc.service;
+
+import java.util.List;
+
+import com.kylemiles.mockdraftsjdbc.entity.MockDraft;
+import com.kylemiles.mockdraftsjdbc.entity.Pick;
+import com.kylemiles.mockdraftsjdbc.entity.Round;
+import com.kylemiles.mockdraftsjdbc.entity.TeamName;
+
+
+public interface MockDraftService {
+
+	List<MockDraft> getMockDrafts();
+	
+	MockDraft createMockDraft(Long teamId, Long draftId, Long playerId);
+	
+	MockDraft altCreateMockDraft(TeamName team, Round round, Pick pick, int rank);
+
+}

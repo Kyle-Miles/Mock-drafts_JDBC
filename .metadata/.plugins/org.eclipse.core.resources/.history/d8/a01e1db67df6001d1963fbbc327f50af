@@ -1,0 +1,18 @@
+package com.kylemiles.mockdraftsjdbc.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.kylemiles.mockdraftsjdbc.entity.Draft;
+
+@Service
+public class DefaultDraftService implements DraftService {
+
+	@Override
+	public List<Draft> getDrafts() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

@@ -1,0 +1,15 @@
+package com.kylemiles.mockdraftsjdbc.service;
+
+import java.util.List;
+
+import com.kylemiles.mockdraftsjdbc.entity.Needs;
+
+public class DefaultNeedsService implements NeedsService {
+
+	@Override
+	public List<Needs> getNeeds() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

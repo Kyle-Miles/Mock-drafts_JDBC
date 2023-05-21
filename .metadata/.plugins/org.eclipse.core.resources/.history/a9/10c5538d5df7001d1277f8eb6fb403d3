@@ -1,0 +1,17 @@
+package com.kylemiles.mockdraftsjdbc.dto;
+
+import com.kylemiles.mockdraftsjdbc.entity.Conference;
+import com.kylemiles.mockdraftsjdbc.entity.Division;
+import com.kylemiles.mockdraftsjdbc.entity.TeamName;
+
+public record TeamNeedsDTO(
+		
+		Long id,
+		TeamName teamName,
+		Conference teamConference,
+		Division teamDivision.
+		List <Needs> needs
+		
+		) {
+
+}

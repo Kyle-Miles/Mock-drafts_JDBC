@@ -1,0 +1,29 @@
+package com.kylemiles.mockdraftsjdbc.entity;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class Draft {
+
+	public Draft(Long draftPK) {
+		super();
+		this.draftPK = draftPK;
+	}
+	
+	public Draft(Round round, Pick pick) {
+		super();
+		this.round = round;
+		this.pick = pick;
+	}
+
+	private Long draftPK;
+	private Round round;
+	private Pick pick;
+	
+}

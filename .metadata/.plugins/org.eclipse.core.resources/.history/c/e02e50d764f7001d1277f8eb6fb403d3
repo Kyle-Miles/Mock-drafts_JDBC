@@ -1,0 +1,15 @@
+package com.kylemiles.mockdraftsjdbc.dto;
+
+import com.kylemiles.mockdraftsjdbc.entity.Position;
+
+import lombok.Builder;
+
+@Builder
+public record NeedsDTO(
+		
+		Long id,
+		Position position
+		
+		) {
+
+}

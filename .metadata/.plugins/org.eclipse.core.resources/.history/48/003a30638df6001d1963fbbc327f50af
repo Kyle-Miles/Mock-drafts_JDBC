@@ -1,0 +1,15 @@
+package com.kylemiles.mockdraftsjdbc.entity;
+
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+public class Team {
+	
+	private Long teamPK;
+	private TeamName teamname;
+	private Conference teamConference;
+	private Division teamDivision;
+
+}

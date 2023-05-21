@@ -1,0 +1,68 @@
+package com.kylemiles.mockdraftsjdbc.dao;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.EnumMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Component;
+
+import com.kylemiles.mockdraftsjdbc.entity.Conference;
+import com.kylemiles.mockdraftsjdbc.entity.Division;
+import com.kylemiles.mockdraftsjdbc.entity.Needs;
+import com.kylemiles.mockdraftsjdbc.entity.Position;
+import com.kylemiles.mockdraftsjdbc.entity.Team;
+import com.kylemiles.mockdraftsjdbc.entity.TeamName;
+import com.kylemiles.mockdraftsjdbc.entity.TeamNeeds;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Component
+@Slf4j
+public class DefaultTeamDao implements TeamDao {
+	
+	@Autowired
+	private NamedParameterJdbcTemplate jdbcTemplate;
+
+	@Override
+	public List<TeamNeeds> getTeams() {
+		log.info("Dao fetch Teams");
+		
+		String sql = "SELECT * FROM team "
+				+ "INNER JOIN team_needs "
+				+ "ON team.team_pk = team_needs.team_pk "
+				+ "LEFT JOIN needs "
+				+ "ON needs.needs_pk = team_needs.needs_pk ";
+		
+		
+		return jdbcTemplate.query(sql, new RowMapper<>() {
+			@Override
+			public TeamNeeds mapRow(ResultSet rs, int rowNum) throws SQLException {
+				
+				return TeamNeeds.builder()
+						.team(Team.builder()
+								.teamPK(rs.getLong("team_pk"))
+								.teamname(TeamName.valueOf(rs.getString("team_name")))
+								.teamConference(Conference.valueOf(rs.getString("team_conference")))
+								.teamDivision(Division.valueOf(rs.getString("team_division")))
+								.build()
+						)
+						.needs(Needs.builder()
+								.needsPK(rs.getLong("needs_pk"))
+								.position(Position.valueOf(Position.class, rs.getString("position")))			
+								.build()
+						)
+						.build();
+			}   
+		});
+	}
+
+}

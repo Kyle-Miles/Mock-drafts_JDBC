@@ -1,0 +1,11 @@
+package com.kylemiles.mockdraftsjdbc.dao;
+
+import java.util.List;
+
+import com.kylemiles.mockdraftsjdbc.entity.Team;
+
+public interface TeamDao {
+
+	List<Team> getTeams();
+
+}

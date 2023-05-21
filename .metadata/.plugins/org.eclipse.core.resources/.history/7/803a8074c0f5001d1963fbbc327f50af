@@ -1,0 +1,15 @@
+package com.kylemiles.mockdraftsjdbc.controller;
+
+import java.util.List;
+
+import com.kylemiles.mockdraftsjdbc.entity.Team;
+
+public class DefaultTeamController implements TeamController {
+
+	@Override
+	public List<Team> getTeams() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

@@ -1,0 +1,19 @@
+package com.kylemiles.mockdraftsjdbc.entity;
+
+import java.time.LocalDateTime;
+
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+public class MockDraft {
+	
+	private Long mockDraftPK;
+	private LocalDateTime published;
+	private Team team(Long id, TeamName name, Conference conference, Division division);
+	private Draft draft;
+	private Player player;
+	
+
+}

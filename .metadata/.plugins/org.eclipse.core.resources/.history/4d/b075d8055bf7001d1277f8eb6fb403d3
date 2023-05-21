@@ -1,0 +1,11 @@
+package com.kylemiles.mockdraftsjdbc;
+
+import com.kylemiles.mockdraftsjdbc.entity.TeamName;
+
+public record MockDraftDTO(
+		
+		TeamName team
+		
+		) {
+
+}

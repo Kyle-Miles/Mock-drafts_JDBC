@@ -1,0 +1,16 @@
+package com.kylemiles.mockdraftsjdbc.controller;
+
+import java.util.List;
+
+import com.kylemiles.mockdraftsjdbc.entity.Player;
+import com.kylemiles.mockdraftsjdbc.entity.Position;
+
+public class DefaultPlayerController implements PlayerController {
+
+	@Override
+	public List<Player> getPlayers(String playerName, Position position, String college, int rank) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

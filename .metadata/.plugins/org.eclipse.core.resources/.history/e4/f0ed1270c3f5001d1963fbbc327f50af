@@ -1,0 +1,5 @@
+package com.kylemiles.mockdraftsjdbc.entity;
+
+public class TeamNeeds {
+
+}

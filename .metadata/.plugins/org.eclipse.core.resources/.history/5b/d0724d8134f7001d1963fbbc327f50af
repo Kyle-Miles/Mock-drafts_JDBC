@@ -1,0 +1,14 @@
+package com.kylemiles.mockdraftsjdbc.service;
+
+import java.util.List;
+
+import com.kylemiles.mockdraftsjdbc.entity.MockDraft;
+
+
+public interface MockDraftService {
+
+	List<MockDraft> getMockDrafts();
+	
+	MockDraft createMockDraft(Long teamId, Long draftId, Long playerId);
+
+}

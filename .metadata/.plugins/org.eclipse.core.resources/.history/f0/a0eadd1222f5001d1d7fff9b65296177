@@ -1,0 +1,16 @@
+package com.kylemiles.mockdraftsjdbc.service;
+
+import java.util.List;
+
+import com.kylemiles.mockdraftsjdbc.entity.Player;
+import com.kylemiles.mockdraftsjdbc.entity.Position;
+
+public class DefaultPlayerService implements PlayerService {
+
+	@Override
+	public List<Player> getPlayers(String planerName, Position position, String college, int rank) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

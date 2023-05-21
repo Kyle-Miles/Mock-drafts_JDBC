@@ -1,0 +1,11 @@
+package com.kylemiles.mockdraftsjdbc.service;
+
+import java.util.List;
+
+import com.kylemiles.mockdraftsjdbc.entity.Team;
+
+public interface TeamService {
+
+	List<Team> getTeams();
+
+}

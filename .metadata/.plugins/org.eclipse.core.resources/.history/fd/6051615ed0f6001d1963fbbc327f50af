@@ -1,0 +1,131 @@
+package com.kylemiles.mockdraftsjdbc.dao;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Component;
+
+import com.kylemiles.mockdraftsjdbc.dao.DefaultPlayerDao.SqlParams;
+import com.kylemiles.mockdraftsjdbc.entity.Conference;
+import com.kylemiles.mockdraftsjdbc.entity.Division;
+import com.kylemiles.mockdraftsjdbc.entity.Draft;
+import com.kylemiles.mockdraftsjdbc.entity.MockDraft;
+import com.kylemiles.mockdraftsjdbc.entity.Needs;
+import com.kylemiles.mockdraftsjdbc.entity.Pick;
+import com.kylemiles.mockdraftsjdbc.entity.Player;
+import com.kylemiles.mockdraftsjdbc.entity.Position;
+import com.kylemiles.mockdraftsjdbc.entity.Round;
+import com.kylemiles.mockdraftsjdbc.entity.Team;
+import com.kylemiles.mockdraftsjdbc.entity.TeamName;
+import com.kylemiles.mockdraftsjdbc.entity.TeamNeeds;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Component
+@Slf4j
+public class DefaultMockDraftDao implements MockDraftDao {
+	
+	@Autowired
+	private NamedParameterJdbcTemplate jdbcTemplate;
+	private DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+	@Override
+	public List<MockDraft> getMockDrafts() {
+		log.info("Dao fetch Mock Draft");
+		
+		String sql = "SELECT * FROM mock_draft "
+				+ "INNER JOIN team "
+				+ "ON mock_draft.team_pk = team.team_pk "
+				+ "INNER JOIN draft "
+				+ "ON mock_draft.draft_pk = draft.draft_pk "
+				+ "INNER JOIN player "
+				+ "ON mock_draft.player_pk = player.player_pk";
+		
+		return jdbcTemplate.query(sql, new RowMapper<>() {
+			@Override
+			public MockDraft mapRow(ResultSet rs, int rowNum) throws SQLException {
+				
+				
+				return MockDraft.builder()
+						.mockDraftPK(rs.getLong("mock_draft_pk"))
+						.published(LocalDateTime.parse(rs.getString("published"), format))
+						.message("GET mapping for Mock Draft number " + rs.getLong("mock_draft_pk") + " = ")
+						.team(Team.builder()
+								.teamPK(rs.getLong("team_pk"))
+								.teamname(TeamName.valueOf(rs.getString("team_name")))
+								.teamConference(Conference.valueOf(rs.getString("team_conference")))
+								.teamDivision(Division.valueOf(rs.getString("team_division")))
+								.build())
+						.draft(Draft.builder()
+								.draftPK(rs.getLong("draft_pk"))
+								.round(Round.valueOf(rs.getString("round")))
+								.pick(Pick.valueOf(rs.getString("pick")))
+								.build())
+						.player(Player.builder()
+								.playerPK(rs.getLong("player_pk"))
+								.playerName(rs.getString("player_name"))
+								.position(Position.valueOf(rs.getString("position")))
+								.college(rs.getString("college"))
+								.rank(rs.getInt("ovr_rank"))
+								.build())
+						.build();
+			}
+		});
+	}
+
+	@Override
+	public MockDraft createMockDraft(Long teamId, Long draftId, Long playerId) {
+		log.info("Dao create Mock Draft");
+		
+		SqlParams sqlParams = new SqlParams();
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		
+		sqlParams.sql = "INSERT INTO mock_draft "
+				+ "(team_pk, "
+				+ "draft_pk, "
+				+ "player_pk) "
+				+ "SELECT (:team_pk, :draft_pk , :player_pk) "
+				+ "FROM mock_draft "
+				+ "INNER JOIN team "
+				+ "ON :team_pk = team.team_pk "
+				+ "INNER JOIN draft "
+				+ "ON :draft_pk = draft.draft_pk "
+				+ "INNER JOIN player "
+				+ "ON :player_pk = player.player_pk"                  ;
+		
+		sqlParams.source.addValue("team_pk", teamId);
+		sqlParams.source.addValue("draft_pk", draftId);
+		sqlParams.source.addValue("player_pk", playerId);
+		
+		Team t = new Team(teamId);
+		Draft d = new Draft(draftId);
+		Player p = new Player(playerId);
+		
+	
+		jdbcTemplate.update(sqlParams.sql, sqlParams.source, keyHolder); {
+		return MockDraft.builder()
+				.mockDraftPK(keyHolder.getKey().longValue())
+				.published(LocalDateTime.now())
+				.message("Please refer to GET for more info on Mock Draft: " +keyHolder.getKey().longValue() )
+				.team(t)
+				.draft(d)
+				.player(p)
+				.build();
+		}
+	}
+	
+	class SqlParams {
+		String sql;
+		MapSqlParameterSource source = new MapSqlParameterSource();
+	}
+
+}

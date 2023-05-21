@@ -1,0 +1,15 @@
+package com.kylemiles.mockdraftsjdbc.service;
+
+import java.util.List;
+
+import com.kylemiles.mockdraftsjdbc.entity.Team;
+
+public class DefaultTeamService implements TeamService {
+
+	@Override
+	public List<Team> getTeams() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}
