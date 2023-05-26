@@ -72,4 +72,12 @@ public class DefaultPlayerService implements PlayerService {
 		return player;
 	}
 
+	@Override
+	public List<Player> getPlayersByPosition(Position position) {
+		log.info("Service fetch Players");
+		
+		List<Player> players = playerDao.getPlayersByPosition(position);
+		return players;
+	}
+
 }

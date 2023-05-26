@@ -7,14 +7,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kylemiles.mockdraftsjdbc.dto.MockDraftDTO;
 import com.kylemiles.mockdraftsjdbc.dto.MockDraftDTOById;
-import com.kylemiles.mockdraftsjdbc.entity.Draft;
 import com.kylemiles.mockdraftsjdbc.entity.MockDraft;
 import com.kylemiles.mockdraftsjdbc.entity.Pick;
-import com.kylemiles.mockdraftsjdbc.entity.Player;
 import com.kylemiles.mockdraftsjdbc.entity.Round;
-import com.kylemiles.mockdraftsjdbc.entity.Team;
 import com.kylemiles.mockdraftsjdbc.entity.TeamName;
-import com.kylemiles.mockdraftsjdbc.service.DraftService;
 import com.kylemiles.mockdraftsjdbc.service.MockDraftService;
 
 import lombok.extern.slf4j.Slf4j;

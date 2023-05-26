@@ -1,5 +1,0 @@
-package com.kylemiles.mockdraftsjdbc.entity;
-
-public enum TeamName {
-
-}

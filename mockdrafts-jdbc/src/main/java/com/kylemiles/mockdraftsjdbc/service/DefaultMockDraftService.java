@@ -5,16 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kylemiles.mockdraftsjdbc.dao.DraftDao;
 import com.kylemiles.mockdraftsjdbc.dao.MockDraftDao;
 import com.kylemiles.mockdraftsjdbc.dto.MockDraftDTO;
 import com.kylemiles.mockdraftsjdbc.dto.MockDraftDTOById;
-import com.kylemiles.mockdraftsjdbc.entity.Draft;
 import com.kylemiles.mockdraftsjdbc.entity.MockDraft;
 import com.kylemiles.mockdraftsjdbc.entity.Pick;
-import com.kylemiles.mockdraftsjdbc.entity.Player;
 import com.kylemiles.mockdraftsjdbc.entity.Round;
-import com.kylemiles.mockdraftsjdbc.entity.Team;
 import com.kylemiles.mockdraftsjdbc.entity.TeamName;
 
 import lombok.extern.slf4j.Slf4j;

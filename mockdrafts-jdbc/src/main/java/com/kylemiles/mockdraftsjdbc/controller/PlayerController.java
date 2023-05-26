@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.kylemiles.mockdraftsjdbc.entity.Player;
@@ -93,5 +92,15 @@ public interface PlayerController {
 	@GetMapping("/id")
 	@ResponseStatus(code = HttpStatus.OK)
 	Player getPlayerById(Long id);
+	
+	@Operation(summary = "Return Players by position", description = "Returns Players", responses = {
+			@ApiResponse(responseCode = "200", description = "Players are returned", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Player.class))),
+			@ApiResponse(responseCode = "400", description = "The request parameter is invalid", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "403", description = "The current user is forbidden from this operation", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "404", description = "No players were found with the input criteria", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "500", description = "An unplanned error occured.", content = @Content(mediaType = "application/json")) })
+	@GetMapping("/position")
+	@ResponseStatus(code = HttpStatus.OK)
+	List<Player> getPlayersByPosition(Position position);
 
 }

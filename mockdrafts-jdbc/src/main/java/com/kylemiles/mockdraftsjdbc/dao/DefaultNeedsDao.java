@@ -10,7 +10,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.kylemiles.mockdraftsjdbc.entity.Needs;
-import com.kylemiles.mockdraftsjdbc.entity.Player;
 import com.kylemiles.mockdraftsjdbc.entity.Position;
 
 import lombok.extern.slf4j.Slf4j;

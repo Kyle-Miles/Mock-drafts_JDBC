@@ -59,4 +59,10 @@ public class DefaultPlayerController implements PlayerController {
 		return playerService.getPlayerById(id);
 	}
 
+	@Override
+	public List<Player> getPlayersByPosition(Position position) {
+		log.info("Controller fetch Players");
+		return playerService.getPlayersByPosition(position);
+	}
+
 }

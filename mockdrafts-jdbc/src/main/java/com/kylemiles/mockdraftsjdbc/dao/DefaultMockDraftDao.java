@@ -1,32 +1,13 @@
 package com.kylemiles.mockdraftsjdbc.dao;
 
-import java.io.InputStream;
-import java.io.Reader;
-import java.math.BigDecimal;
-import java.net.URL;
-import java.sql.Array;
-import java.sql.Blob;
-import java.sql.Clob;
-import java.sql.Date;
-import java.sql.NClob;
-import java.sql.Ref;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.RowId;
 import java.sql.SQLException;
-import java.sql.SQLWarning;
-import java.sql.SQLXML;
-import java.sql.Statement;
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
+
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -34,22 +15,19 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
-import com.kylemiles.mockdraftsjdbc.dao.DefaultPlayerDao.SqlParams;
+
 import com.kylemiles.mockdraftsjdbc.dto.MockDraftDTO;
 import com.kylemiles.mockdraftsjdbc.dto.MockDraftDTOById;
 import com.kylemiles.mockdraftsjdbc.entity.Conference;
 import com.kylemiles.mockdraftsjdbc.entity.Division;
 import com.kylemiles.mockdraftsjdbc.entity.Draft;
 import com.kylemiles.mockdraftsjdbc.entity.MockDraft;
-import com.kylemiles.mockdraftsjdbc.entity.Needs;
 import com.kylemiles.mockdraftsjdbc.entity.Pick;
 import com.kylemiles.mockdraftsjdbc.entity.Player;
 import com.kylemiles.mockdraftsjdbc.entity.Position;
-import com.kylemiles.mockdraftsjdbc.entity.Rank;
 import com.kylemiles.mockdraftsjdbc.entity.Round;
 import com.kylemiles.mockdraftsjdbc.entity.Team;
 import com.kylemiles.mockdraftsjdbc.entity.TeamName;
-import com.kylemiles.mockdraftsjdbc.entity.TeamNeeds;
 
 import lombok.extern.slf4j.Slf4j;
 

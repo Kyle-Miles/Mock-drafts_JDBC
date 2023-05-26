@@ -26,5 +26,7 @@ public class Player {
 	private Position position;
 	private String college;
 	private int rank;
+	
+	
 
 }

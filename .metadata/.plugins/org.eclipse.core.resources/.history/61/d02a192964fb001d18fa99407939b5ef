@@ -1,0 +1,74 @@
+package com.kylemiles.mockdraftsjdbc.config;
+
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import static org.springframework.security.config.Customizer.withDefaults;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configurers.provisioning.JdbcUserDetailsManagerConfigurer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig{
+	
+	@Autowired
+	private DataSource datasource;
+	
+	@Autowired
+	protected JdbcUserDetailsManagerConfigurer<AuthenticationManagerBuilder> configure(AuthenticationManagerBuilder auth) throws Exception {
+		return auth
+				.jdbcAuthentication()
+				.dataSource(datasource)
+				.usersByUsernameQuery("SELECT username, password, active "
+						+ "FROM user "
+						+ "WHERE username = ?")
+				.authoritiesByUsernameQuery("SELECT roles "
+						+ "FROM user "
+						+ "WHERE username = ?");
+		
+		
+	}
+	@Bean
+	protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return 	http
+                .csrf(csrf -> csrf
+                        .ignoringAntMatchers(
+                                "/**"))
+                .authorizeHttpRequests(requests -> requests
+                        .antMatchers(HttpMethod.GET
+                        , "/nfldraft/user")
+                        .hasAuthority("ROLE_ADMIN")
+                        .antMatchers(HttpMethod.GET
+                        , "/**")
+                        .hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                        .antMatchers(HttpMethod.POST
+                        , "/player/**")
+                        .hasAuthority("ROLE_ADMIN")
+                        .antMatchers(HttpMethod.PUT
+                        , "/**")
+                        .hasAuthority("ROLE_ADMIN")
+                        .antMatchers(HttpMethod.DELETE
+                        , "/**")
+                        .hasAuthority("ROLE_ADMIN"))
+                .formLogin(Customizer.withDefaults())
+                .build();
+	}
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
+}

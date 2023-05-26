@@ -19,4 +19,6 @@ public interface PlayerDao {
 
 	Player getPlayerById(Long id);
 
+	List<Player> getPlayersByPosition(Position position);
+
 }

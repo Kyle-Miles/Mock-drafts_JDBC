@@ -6,7 +6,6 @@ import com.kylemiles.mockdraftsjdbc.dto.MockDraftDTO;
 import com.kylemiles.mockdraftsjdbc.dto.MockDraftDTOById;
 import com.kylemiles.mockdraftsjdbc.entity.MockDraft;
 import com.kylemiles.mockdraftsjdbc.entity.Pick;
-import com.kylemiles.mockdraftsjdbc.entity.Rank;
 import com.kylemiles.mockdraftsjdbc.entity.Round;
 import com.kylemiles.mockdraftsjdbc.entity.TeamName;
 
