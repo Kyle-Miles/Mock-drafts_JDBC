@@ -1,5 +1,6 @@
 package com.kylemiles.mockdraftsjdbc.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,9 +8,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kylemiles.mockdraftsjdbc.dto.MockDraftDTO;
 import com.kylemiles.mockdraftsjdbc.dto.MockDraftDTOById;
+import com.kylemiles.mockdraftsjdbc.entity.Draft;
 import com.kylemiles.mockdraftsjdbc.entity.MockDraft;
 import com.kylemiles.mockdraftsjdbc.entity.Pick;
+import com.kylemiles.mockdraftsjdbc.entity.Player;
 import com.kylemiles.mockdraftsjdbc.entity.Round;
+import com.kylemiles.mockdraftsjdbc.entity.Team;
 import com.kylemiles.mockdraftsjdbc.entity.TeamName;
 import com.kylemiles.mockdraftsjdbc.service.MockDraftService;
 
@@ -42,6 +46,18 @@ public class DefaultMockDraftController implements MockDraftController {
 	public MockDraftDTO altCreateMockDraft(TeamName team, Round round, Pick pick, int rank) {
 		log.info("Controller create Mock Draft");
 		return draftService.altCreateMockDraft(team, round, pick, rank);
+	}
+
+	@Override
+	public MockDraftDTO updateMockDraft(Long id, TeamName team, Round round, Pick pick, int rank) {
+		log.info("Controller update Mock Draft");
+		return draftService.updateMockDraft(id, team, round, pick, rank);
+	}
+
+	@Override
+	public List<MockDraft> getMockDraftsByTeamName(TeamName team) {
+		log.info("Controller fetch Mock Drafts");
+		return draftService.getMockDraftsByTeamName(team);
 	}
 
 }

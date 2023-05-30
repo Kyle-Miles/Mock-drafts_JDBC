@@ -16,11 +16,11 @@ public class Draft {
 		this.draftPK = draftPK;
 	}
 	
-	public Draft(Round round, Pick pick) {
-		super();
-		this.round = round;
-		this.pick = pick;
-	}
+//	public Draft(Round round, Pick pick) {
+//		super();
+//		this.round = round;
+//		this.pick = pick;
+//	}
 
 	private Long draftPK;
 	private Round round;

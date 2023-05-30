@@ -1,12 +1,16 @@
 package com.kylemiles.mockdraftsjdbc.dao;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.kylemiles.mockdraftsjdbc.dto.MockDraftDTO;
 import com.kylemiles.mockdraftsjdbc.dto.MockDraftDTOById;
+import com.kylemiles.mockdraftsjdbc.entity.Draft;
 import com.kylemiles.mockdraftsjdbc.entity.MockDraft;
 import com.kylemiles.mockdraftsjdbc.entity.Pick;
+import com.kylemiles.mockdraftsjdbc.entity.Player;
 import com.kylemiles.mockdraftsjdbc.entity.Round;
+import com.kylemiles.mockdraftsjdbc.entity.Team;
 import com.kylemiles.mockdraftsjdbc.entity.TeamName;
 
 public interface MockDraftDao {
@@ -16,5 +20,9 @@ public interface MockDraftDao {
 	MockDraftDTOById createMockDraft(Long teamId, Long draftId, Long playerId);
 	
 	MockDraftDTO altCreateMockDraft(TeamName team, Round round, Pick pick, int rank);
+
+	MockDraftDTO updateMockDraft(Long id, TeamName team, Round round, Pick pick, int rank);
+
+	List<MockDraft> getMockDraftByTeamName(TeamName team);
 
 }

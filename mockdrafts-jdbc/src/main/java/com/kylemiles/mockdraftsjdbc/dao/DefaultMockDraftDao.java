@@ -4,8 +4,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
@@ -132,6 +135,11 @@ public class DefaultMockDraftDao implements MockDraftDao {
 				+ "JOIN player p ON p.ovr_rank = :ovr_rank "
 				+ "WHERE  t.team_name = :team_name";
 		
+		List<Integer> roundVal = new ArrayList<>();
+		for (Round roundList : Round.values()) {
+			roundVal.add(roundList.getValue());
+		}
+		
 		sqlParams.source.addValue("team_name", team.toString());
 		sqlParams.source.addValue("round", round.toString());
 		sqlParams.source.addValue("pick", pick.toString());
@@ -150,6 +158,90 @@ public class DefaultMockDraftDao implements MockDraftDao {
 					.build();
 		
 		}
+	}
+
+	@Override
+	public MockDraftDTO updateMockDraft(Long id, TeamName team, Round round, Pick pick, int rank) {
+		log.info("Dao update Mock Draft");
+		
+		String sql = "UPDATE mock_draft md "
+				+ "SET "
+				+ "md.team_pk = "
+				+ "(SELECT t.team_pk FROM team t WHERE t.team_name = :team_name), "
+				+ "md.draft_pk = "
+				+ "(SELECT d.draft_pk FROM draft d WHERE d.round = :round AND d.pick = :pick), "
+				+ "md.player_pk = "
+				+ "(SELECT p.player_pk FROM player p WHERE p.ovr_rank = :ovr_rank) "
+				+ "WHERE md.mock_draft_pk = :mock_draft_pk";
+		
+		Map <String, Object> params = new HashMap<>();
+		params.put("mock_draft_pk", id);
+		params.put("team_name", team.toString());
+		params.put("round", round.toString());
+		params.put("pick", pick.toString());
+		params.put("ovr_rank", rank);
+		
+		if (jdbcTemplate.update(sql, params) == 0) {
+			throw new NoSuchElementException("Update failed... player id: " + id + " doesn't exist... ");
+		}
+		
+		return MockDraftDTO.builder()
+				.id(id)
+				.published(LocalDateTime.now())
+				.team(team)
+				.round(round)
+				.pick(pick)
+				.rank(rank)
+				.build()
+				;
+	}
+
+	@Override
+	public List<MockDraft> getMockDraftByTeamName(TeamName team) {
+		
+		String sql = "SELECT * FROM mock_draft md "
+				+ "INNER JOIN team t "
+				+ "ON md.team_pk = t.team_pk "
+				+ "INNER JOIN draft d "
+				+ "ON md.draft_pk = d.draft_pk "
+				+ "INNER JOIN player p "
+				+ "ON md.player_pk = p.player_pk "
+				+ "WHERE md.team_pk = "
+				+ "(SELECT t.team_pk FROM team t "
+				+ "WHERE t.team_name = :team_name)";
+		
+		Map<String, Object> params = new HashMap<>();
+		params.put("team_name", team.toString());
+		
+		return jdbcTemplate.query(sql, params, new RowMapper<>() {
+			@Override
+			public MockDraft mapRow(ResultSet rs, int rowNum) throws SQLException {
+				
+				
+				return MockDraft.builder()
+						.mockDraftPK(rs.getLong("mock_draft_pk"))
+						.published(LocalDateTime.parse(rs.getString("published"), format))
+						.team(Team.builder()
+								.teamPK(rs.getLong("team_pk"))
+								.teamname(team)
+								.teamConference(Conference.valueOf(rs.getString("team_conference")))
+								.teamDivision(Division.valueOf(rs.getString("team_division")))
+								.build())
+						.draft(Draft.builder()
+								.draftPK(rs.getLong("draft_pk"))
+								.round(Round.valueOf(rs.getString("round")))
+								.pick(Pick.valueOf(rs.getString("pick")))
+								.build())
+						.player(Player.builder()
+								.playerPK(rs.getLong("player_pk"))
+								.playerName(rs.getString("player_name"))
+								.position(Position.valueOf(rs.getString("position")))
+								.college(rs.getString("college"))
+								.rank(rs.getInt("ovr_rank"))
+								.build())
+						.build();
+			}
+		});
 	}
 
 }
