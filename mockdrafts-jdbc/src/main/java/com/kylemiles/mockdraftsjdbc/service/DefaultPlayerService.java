@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kylemiles.mockdraftsjdbc.dao.PlayerDao;
+import com.kylemiles.mockdraftsjdbc.dto.PlayerDTO;
 import com.kylemiles.mockdraftsjdbc.entity.Player;
 import com.kylemiles.mockdraftsjdbc.entity.Position;
+import com.kylemiles.mockdraftsjdbc.entity.Year;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,10 +35,10 @@ public class DefaultPlayerService implements PlayerService {
 	}
 
 	@Override
-	public Player createPlayer(String playerName, Position position, String college, int rank) {
+	public PlayerDTO createPlayer(String playerName, Position position, String college, int rank, Year year) {
 		log.info("Service create Players");
 		
-		Player player = playerDao.createPlayer(playerName, position, college, rank);
+		PlayerDTO player = playerDao.createPlayer(playerName, position, college, rank, year);
 		return player;
 	}
 
@@ -57,10 +59,10 @@ public class DefaultPlayerService implements PlayerService {
 	}
 
 	@Override
-	public Player altUpdatePlayer(Long id, String playerName, Position position, String college, int rank) {
+	public PlayerDTO altUpdatePlayer(Long id, String playerName, Position position, String college, int rank, Year year) {
 		log.info("Service update Players");
 		
-		Player player = playerDao.altUpdatePlayer(id, playerName, position, college, rank);
+		PlayerDTO player = playerDao.altUpdatePlayer(id, playerName, position, college, rank, year);
 		return player;
 	}
 
@@ -77,6 +79,22 @@ public class DefaultPlayerService implements PlayerService {
 		log.info("Service fetch Players");
 		
 		List<Player> players = playerDao.getPlayersByPosition(position);
+		return players;
+	}
+
+	@Override
+	public List<Player> getPlayersByName(String name) {
+		log.info("Service fetch Players");
+		
+		List<Player> players = playerDao.getPlayersByName(name);
+		return players;
+	}
+
+	@Override
+	public List<Player> getPlayersByClassYear(Year year) {
+		log.info("Service fetch Players");
+		
+		List<Player> players = playerDao.getPlayersByClassYear(year);
 		return players;
 	}
 

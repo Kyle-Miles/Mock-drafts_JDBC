@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kylemiles.mockdraftsjdbc.dto.PlayerDTO;
 import com.kylemiles.mockdraftsjdbc.entity.Player;
 import com.kylemiles.mockdraftsjdbc.entity.Position;
+import com.kylemiles.mockdraftsjdbc.entity.Year;
 import com.kylemiles.mockdraftsjdbc.service.PlayerService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,9 +31,9 @@ public class DefaultPlayerController implements PlayerController {
 	}
 
 	@Override
-	public Player createPlayer(String playerName, Position position, String college, int rank) {
+	public PlayerDTO createPlayer(String playerName, Position position, String college, int rank, Year year) {
 		log.info("Controller create Players");
-		return playerService.createPlayer(playerName, position, college, rank);
+		return playerService.createPlayer(playerName, position, college, rank, year);
 	}
 
 	@Override
@@ -48,9 +50,9 @@ public class DefaultPlayerController implements PlayerController {
 	}
 
 	@Override
-	public Player altUpdatePlayer(Long id, String playerName, Position position, String college, int rank) {
+	public PlayerDTO altUpdatePlayer(Long id, String playerName, Position position, String college, int rank, Year year) {
 		log.info("Controller update Players");
-		return playerService.altUpdatePlayer(id, playerName, position, college, rank);
+		return playerService.altUpdatePlayer(id, playerName, position, college, rank, year);
 	}
 
 	@Override
@@ -63,6 +65,18 @@ public class DefaultPlayerController implements PlayerController {
 	public List<Player> getPlayersByPosition(Position position) {
 		log.info("Controller fetch Players");
 		return playerService.getPlayersByPosition(position);
+	}
+
+	@Override
+	public List<Player> getPlayersByName(String name) {
+		log.info("Controller fetch Players");
+		return playerService.getPlayersByName(name);
+	}
+
+	@Override
+	public List<Player> getPlayersByClassYear(Year year) {
+		log.info("Controller fetch Players");
+		return playerService.getPlayersByClassYear(year);
 	}
 
 }

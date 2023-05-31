@@ -1,0 +1,32 @@
+package com.kylemiles.mockdraftsjdbc;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.PropertySource;
+
+import com.kylemiles.mockdraftsjdbc.entity.Year;
+
+@SpringBootApplication
+@PropertySource("classpath:application.properties")
+public class MockdraftsJdbcApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(MockdraftsJdbcApplication.class, args);
+		
+		
+	
+		for(Year status : Year.values()) {
+            System.out.println(status + " : " + status.ordinal());
+        }
+        System.out.println();
+        Year status = Year.CLASS_OF_2023;
+        System.out.println("The ordinal is = " + status.ordinal());
+        System.out.println("Status Name= " + status.name());
+        System.out.println();
+        System.out.println("Status toString() = " + status.toString());
+	}
+
+}

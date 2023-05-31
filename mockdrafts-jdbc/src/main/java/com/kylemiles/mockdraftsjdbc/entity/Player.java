@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Player {
 	
+	
+	
 	public Player(Long playerPK) {
 		super();
 		this.playerPK = playerPK;
@@ -26,7 +28,7 @@ public class Player {
 	private Position position;
 	private String college;
 	private int rank;
-	
+	private String year;
 	
 
 }

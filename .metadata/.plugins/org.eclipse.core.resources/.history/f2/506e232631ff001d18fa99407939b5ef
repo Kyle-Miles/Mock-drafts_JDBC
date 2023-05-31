@@ -1,0 +1,20 @@
+package com.kylemiles.mockdraftsjdbc.converter;
+
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
+
+import com.kylemiles.mockdraftsjdbc.entity.Year;
+
+@Component
+public class StringToIntegerConverter implements Converter<String, Year> {
+
+	    @Override
+	    public Year convert(String source) {
+	        for (Year year : Year.values()) {
+	            if (year.getValue().equalsIgnoreCase(source)) {
+	                return year;
+	            }
+	        }
+	        throw new IllegalArgumentException("Invalid year value: " + source);
+	    }
+	}

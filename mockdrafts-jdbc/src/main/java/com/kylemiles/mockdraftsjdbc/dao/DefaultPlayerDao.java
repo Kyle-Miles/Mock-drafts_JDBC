@@ -17,8 +17,10 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
+import com.kylemiles.mockdraftsjdbc.dto.PlayerDTO;
 import com.kylemiles.mockdraftsjdbc.entity.Player;
 import com.kylemiles.mockdraftsjdbc.entity.Position;
+import com.kylemiles.mockdraftsjdbc.entity.Year;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,13 +49,14 @@ public class DefaultPlayerDao implements PlayerDao {
 						.position(Position.valueOf(rs.getString("position")))
 						.college(rs.getString("college"))
 						.rank(rs.getInt("ovr_rank"))
+						.year(rs.getString("class_year"))
 						.build();
 			}      
 		});
 	}
 
 	@Override
-	public Player createPlayer(String playerName, Position position, String college, int rank) {
+	public PlayerDTO createPlayer(String playerName, Position position, String college, int rank, Year year) {
 		log.info("Dao create Players");
 		
 		SqlParams sqlParams = new SqlParams();
@@ -63,23 +66,26 @@ public class DefaultPlayerDao implements PlayerDao {
 				+ "(player_name, "
 				+ "position, "
 				+ "college, "
-				+ "ovr_rank) "
-				+ "VALUES (:player_name, :position, :college, :ovr_rank)";
+				+ "ovr_rank, "
+				+ "class_year) "
+				+ "VALUES (:player_name, :position, :college, :ovr_rank, :class_year)";	
 		
 		sqlParams.source.addValue("player_name", playerName);
 		sqlParams.source.addValue("position", position.toString());
 		sqlParams.source.addValue("college", college);
 		sqlParams.source.addValue("ovr_rank", rank);
+		sqlParams.source.addValue("class_year", year.ordinal()+1);
 			
 		jdbcTemplate.update(sqlParams.sql, sqlParams.source, keyHolder); {
 			
 				
-		return Player.builder()
+		return PlayerDTO.builder()
 				.playerPK(keyHolder.getKey().longValue())
 				.playerName(playerName)
 				.position(position)
 				.college(college)
 				.rank(rank)
+				.year(year)
 				.build();
 		}
 	}
@@ -97,7 +103,8 @@ public class DefaultPlayerDao implements PlayerDao {
 				+ "player_name = :player_name, "
 				+ "position = :position, "
 				+ "college = :college, "
-				+ "ovr_rank = :ovr_rank "
+				+ "ovr_rank = :ovr_rank, "
+				+ "class_year = :class_year "
 				+ "WHERE player_pk = :player_pk";
 		
 		Map <String, Object> params = new HashMap<>();
@@ -105,7 +112,9 @@ public class DefaultPlayerDao implements PlayerDao {
 		params.put("position", updatedPlayer.getPosition().toString());
 		params.put("college", updatedPlayer.getCollege());
 		params.put("ovr_rank", updatedPlayer.getRank());
+		params.put("class_year", updatedPlayer.getYear());
 		params.put("player_pk", updatedPlayer.getPlayerPK());
+
 		
 		if (jdbcTemplate.update(sql, params) == 0) {
 			throw new NoSuchElementException("Update failed... player id: " + updatedPlayer.getPlayerPK() + " doesn't exist... ");
@@ -116,6 +125,7 @@ public class DefaultPlayerDao implements PlayerDao {
 				.position(updatedPlayer.getPosition())
 				.college(updatedPlayer.getCollege())
 				.rank(updatedPlayer.getRank())
+				.year(updatedPlayer.getYear())
 				.build();
 	}
 
@@ -139,7 +149,7 @@ public class DefaultPlayerDao implements PlayerDao {
 	}
 	
 	@Override
-	public Player altUpdatePlayer(Long id, String playerName, Position position, String college, int rank) {
+	public PlayerDTO altUpdatePlayer(Long id, String playerName, Position position, String college, int rank, Year year) {
 		log.info("Dao update Players");
 		
 		String sql = "UPDATE player "
@@ -147,7 +157,8 @@ public class DefaultPlayerDao implements PlayerDao {
 				+ "player_name = :player_name, "
 				+ "position = :position, "
 				+ "college = :college, "
-				+ "ovr_rank = :ovr_rank "
+				+ "ovr_rank = :ovr_rank, "
+				+ "class_year = :class_year "
 				+ "WHERE player_pk = :player_pk";
 		
 		Map <String, Object> params = new HashMap<>();
@@ -155,16 +166,19 @@ public class DefaultPlayerDao implements PlayerDao {
 		params.put("position", position.toString());
 		params.put("college", college);
 		params.put("ovr_rank", rank);
+		params.put("class_year", year.ordinal()+1);
 		params.put("player_pk", id);
 		
 		if (jdbcTemplate.update(sql, params) == 0) {
 			throw new NoSuchElementException("Update failed... player id: " + id + " doesn't exist... ");
 		}
-		return Player.builder()
+		return PlayerDTO.builder()
 				.playerPK(id)
 				.playerName(playerName)
+				.position(position)
 				.college(college)
 				.rank(rank)
+				.year(year)
 				.build();
 	}
 
@@ -193,6 +207,7 @@ public class DefaultPlayerDao implements PlayerDao {
 					.position(Position.valueOf(rs.getString("position")))
 					.college(rs.getString("college"))
 					.rank(rs.getInt("ovr_rank"))
+					.year(rs.getString("class_year"))
 					.build();
 		}
 		
@@ -219,6 +234,62 @@ public class DefaultPlayerDao implements PlayerDao {
 						.position(Position.valueOf(rs.getString("position")))
 						.college(rs.getString("college"))
 						.rank(rs.getInt("ovr_rank"))
+						.year(rs.getString("class_year"))
+						.build();
+			}      
+		});
+	}
+
+	@Override
+	public List<Player> getPlayersByName(String name) {
+		log.info("Dao fetch Players");
+		
+		String sql = "SELECT * FROM player "
+				+ "WHERE player_name "
+				+ "LIKE CONCAT('%', :player_name, '%')";
+		
+		Map<String, Object> params = new HashMap<>();
+		params.put("player_name", name);
+		
+		
+		return jdbcTemplate.query(sql, params, new RowMapper<>() {
+			@Override
+			public Player mapRow(ResultSet rs, int rowNum) throws SQLException {
+				
+				return Player.builder()
+						.playerPK(rs.getLong("player_pk"))
+						.playerName(rs.getString("player_name"))
+						.position(Position.valueOf(rs.getString("position")))
+						.college(rs.getString("college"))
+						.rank(rs.getInt("ovr_rank"))
+						.year(rs.getString("class_year"))
+						.build();
+			}      
+		});
+	}
+	
+	@Override
+	public List<Player> getPlayersByClassYear(Year year) {
+		log.info("Dao fetch Players");
+		
+		String sql = "SELECT * FROM player "
+				+ "WHERE class_year = :class_year";
+		
+		Map<String, Object> params = new HashMap<>();
+		params.put("class_year", year.ordinal()+1);
+		
+		
+		return jdbcTemplate.query(sql, params, new RowMapper<>() {
+			@Override
+			public Player mapRow(ResultSet rs, int rowNum) throws SQLException {
+				
+				return Player.builder()
+						.playerPK(rs.getLong("player_pk"))
+						.playerName(rs.getString("player_name"))
+						.position(Position.valueOf(rs.getString("position")))
+						.college(rs.getString("college"))
+						.rank(rs.getInt("ovr_rank"))
+						.year(rs.getString("class_year"))
 						.build();
 			}      
 		});

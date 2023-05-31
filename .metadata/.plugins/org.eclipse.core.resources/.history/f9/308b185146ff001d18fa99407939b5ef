@@ -1,0 +1,119 @@
+package com.kylemiles.mockdraftsjdbc.controller;
+
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+import com.kylemiles.mockdraftsjdbc.dto.PlayerDTO;
+import com.kylemiles.mockdraftsjdbc.entity.Player;
+import com.kylemiles.mockdraftsjdbc.entity.Position;
+import com.kylemiles.mockdraftsjdbc.entity.Year;
+
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.servers.Server;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+
+@RequestMapping("/player")
+@OpenAPIDefinition(info = @Info(title = "Player Service"), servers = {
+		@Server(url = "http://localhost:8080", description = "Local server.") })
+public interface PlayerController {
+
+	@Operation(summary = "Return all Players", description = "Returns a list of Players", responses = {
+			@ApiResponse(responseCode = "200", description = "A list of players is returned", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Player.class))),
+			@ApiResponse(responseCode = "400", description = "The request parameter is invalid", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "403", description = "The current user is forbidden from this operation", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "404", description = "No players were found with the input criteria", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "500", description = "An unplanned error occured.", content = @Content(mediaType = "application/json")) })
+	@GetMapping
+	@ResponseStatus(code = HttpStatus.OK)
+	List<Player> getPlayers();
+
+	@Operation(summary = "Create a Player", description = "Create Players", responses = {
+			@ApiResponse(responseCode = "201", description = "A player is created", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Player.class))),
+			@ApiResponse(responseCode = "400", description = "The request parameter is invalid", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "403", description = "The current user is forbidden from this operation", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "404", description = "No players were found with the input criteria", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "500", description = "An unplanned error occured.", content = @Content(mediaType = "application/json")) }, parameters = {
+					@Parameter(name = "playerName", allowEmptyValue = false, required = true, description = "The full name of the Player"),
+					@Parameter(name = "position", allowEmptyValue = false, required = true, description = "The position of the Player"),
+					@Parameter(name = "college", allowEmptyValue = false, required = true, description = "The college the Player attended"),
+					@Parameter(name = "rank", allowEmptyValue = false, required = true, description = "The overall rank of the Player") })
+	@PostMapping
+	@ResponseStatus(code = HttpStatus.CREATED)
+	PlayerDTO createPlayer(String playerName, Position position, String college, int rank, @RequestParam Year year);
+
+	@Operation(summary = "Update a Player", description = "Updates a Player", responses = {
+			@ApiResponse(responseCode = "200", description = "A player is updated", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Player.class))),
+			@ApiResponse(responseCode = "400", description = "The request parameter is invalid", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "403", description = "The current user is forbidden from this operation", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "404", description = "No players were found with the input criteria", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "500", description = "An unplanned error occured.", content = @Content(mediaType = "application/json")) })
+	@PutMapping
+	@ResponseStatus(code = HttpStatus.OK)
+	Player updatePlayer(Player updatedPlayer);
+
+	@Operation(summary = "Delete a Player", description = "Deletes a Player by id", responses = {
+			@ApiResponse(responseCode = "200", description = "A player is deleted", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Player.class))),
+			@ApiResponse(responseCode = "400", description = "The request parameter is invalid", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "403", description = "The current user is forbidden from this operation", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "404", description = "No players were found with the input criteria", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "500", description = "An unplanned error occured.", content = @Content(mediaType = "application/json")) }
+
+	)
+	@DeleteMapping
+	@ResponseStatus(code = HttpStatus.OK, reason = "Player deleted... ")
+	void deletePlayer(Long deleteId);
+	
+	@Operation(summary = "Update a Player", description = "Updates a Player", responses = {
+			@ApiResponse(responseCode = "200", description = "A player is updated", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Player.class))),
+			@ApiResponse(responseCode = "400", description = "The request parameter is invalid", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "403", description = "The current user is forbidden from this operation", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "404", description = "No players were found with the input criteria", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "500", description = "An unplanned error occured.", content = @Content(mediaType = "application/json")) } )
+	@PutMapping("/alt")
+	@ResponseStatus(code = HttpStatus.OK)
+	Player altUpdatePlayer(Long id, String playerName, Position position, String college, int rank);
+	
+	@Operation(summary = "Return a Player by id", description = "Returns a Player", responses = {
+			@ApiResponse(responseCode = "200", description = "A player is returned", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Player.class))),
+			@ApiResponse(responseCode = "400", description = "The request parameter is invalid", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "403", description = "The current user is forbidden from this operation", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "404", description = "No players were found with the input criteria", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "500", description = "An unplanned error occured.", content = @Content(mediaType = "application/json")) })
+	@GetMapping("/id")
+	@ResponseStatus(code = HttpStatus.OK)
+	Player getPlayerById(Long id);
+	
+	@Operation(summary = "Return Players by position", description = "Returns Players", responses = {
+			@ApiResponse(responseCode = "200", description = "Players are returned", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Player.class))),
+			@ApiResponse(responseCode = "400", description = "The request parameter is invalid", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "403", description = "The current user is forbidden from this operation", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "404", description = "No players were found with the input criteria", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "500", description = "An unplanned error occured.", content = @Content(mediaType = "application/json")) })
+	@GetMapping("/position")
+	@ResponseStatus(code = HttpStatus.OK)
+	List<Player> getPlayersByPosition(Position position);
+	
+	@Operation(summary = "Return Players by a substring of player name", description = "Returns Players", responses = {
+			@ApiResponse(responseCode = "200", description = "Players are returned", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Player.class))),
+			@ApiResponse(responseCode = "400", description = "The request parameter is invalid", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "403", description = "The current user is forbidden from this operation", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "404", description = "No players were found with the input criteria", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "500", description = "An unplanned error occured.", content = @Content(mediaType = "application/json")) })
+	@GetMapping("/name")
+	@ResponseStatus(code = HttpStatus.OK)
+	List<Player> getPlayersByName(String name);
+
+}

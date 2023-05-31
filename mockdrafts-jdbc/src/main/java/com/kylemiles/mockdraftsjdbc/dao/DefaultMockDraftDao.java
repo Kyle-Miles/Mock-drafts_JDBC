@@ -79,11 +79,13 @@ public class DefaultMockDraftDao implements MockDraftDao {
 								.position(Position.valueOf(rs.getString("position")))
 								.college(rs.getString("college"))
 								.rank(rs.getInt("ovr_rank"))
+								.year(rs.getString("class_year"))
 								.build())
 						.build();
 			}
 		});
 	}
+
 
 	@Override
 	public MockDraftDTOById createMockDraft(Long teamId, Long draftId, Long playerId) {
@@ -238,6 +240,7 @@ public class DefaultMockDraftDao implements MockDraftDao {
 								.position(Position.valueOf(rs.getString("position")))
 								.college(rs.getString("college"))
 								.rank(rs.getInt("ovr_rank"))
+								.year(rs.getString("class_year"))
 								.build())
 						.build();
 			}

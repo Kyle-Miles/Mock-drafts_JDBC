@@ -1,0 +1,5 @@
+package com.kylemiles.mockdraftsjdbc.converter;
+
+public class StringToIntegerConverter {
+
+}

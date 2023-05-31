@@ -1,0 +1,44 @@
+package com.kylemiles.mockdraftsjdbc;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.PropertySource;
+
+import com.kylemiles.mockdraftsjdbc.entity.Year;
+
+@SpringBootApplication
+@PropertySource("classpath:application.properties")
+public class MockdraftsJdbcApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(MockdraftsJdbcApplication.class, args);
+		
+		
+		System.out.println(Year.CLASS_OF_2023.toString());
+		
+//		List <Integer> cYear0 = new ArrayList<>();
+//		
+//		for (Year year : Year.values()) {
+//			System.out.println(year);
+//			cYear0.add(year.getValue());
+//		}
+//		
+//		System.out.println(cYear0);
+		
+//		Year[] cYear = new Year[100];
+//		int i = 0;
+//		for (Year year : Year.values()) {
+//			System.out.println(year);
+//			int x = year.getValue();
+//			cYear[i] = x;
+//			i++;
+//			System.out.println(cYear.toString());
+//		}
+//		
+//		System.out.println(cYear);
+	}
+
+}

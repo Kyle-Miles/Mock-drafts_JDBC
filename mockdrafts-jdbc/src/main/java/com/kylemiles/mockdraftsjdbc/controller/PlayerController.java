@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.kylemiles.mockdraftsjdbc.dto.PlayerDTO;
 import com.kylemiles.mockdraftsjdbc.entity.Player;
 import com.kylemiles.mockdraftsjdbc.entity.Position;
+import com.kylemiles.mockdraftsjdbc.entity.Year;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
@@ -49,7 +51,7 @@ public interface PlayerController {
 					@Parameter(name = "rank", allowEmptyValue = false, required = true, description = "The overall rank of the Player") })
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
-	Player createPlayer(String playerName, Position position, String college, int rank);
+	PlayerDTO createPlayer(String playerName, Position position, String college, int rank, Year year);
 
 	@Operation(summary = "Update a Player", description = "Updates a Player", responses = {
 			@ApiResponse(responseCode = "200", description = "A player is updated", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Player.class))),
@@ -81,7 +83,7 @@ public interface PlayerController {
 			@ApiResponse(responseCode = "500", description = "An unplanned error occured.", content = @Content(mediaType = "application/json")) } )
 	@PutMapping("/alt")
 	@ResponseStatus(code = HttpStatus.OK)
-	Player altUpdatePlayer(Long id, String playerName, Position position, String college, int rank);
+	PlayerDTO altUpdatePlayer(Long id, String playerName, Position position, String college, int rank, Year year);
 	
 	@Operation(summary = "Return a Player by id", description = "Returns a Player", responses = {
 			@ApiResponse(responseCode = "200", description = "A player is returned", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Player.class))),
@@ -102,5 +104,25 @@ public interface PlayerController {
 	@GetMapping("/position")
 	@ResponseStatus(code = HttpStatus.OK)
 	List<Player> getPlayersByPosition(Position position);
+	
+	@Operation(summary = "Return Players by a substring of player name", description = "Returns Players", responses = {
+			@ApiResponse(responseCode = "200", description = "Players are returned", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Player.class))),
+			@ApiResponse(responseCode = "400", description = "The request parameter is invalid", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "403", description = "The current user is forbidden from this operation", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "404", description = "No players were found with the input criteria", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "500", description = "An unplanned error occured.", content = @Content(mediaType = "application/json")) })
+	@GetMapping("/name")
+	@ResponseStatus(code = HttpStatus.OK)
+	List<Player> getPlayersByName(String name);
+	
+	@Operation(summary = "Return Players by class year", description = "Returns Players", responses = {
+			@ApiResponse(responseCode = "200", description = "Players are returned", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Player.class))),
+			@ApiResponse(responseCode = "400", description = "The request parameter is invalid", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "403", description = "The current user is forbidden from this operation", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "404", description = "No players were found with the input criteria", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "500", description = "An unplanned error occured.", content = @Content(mediaType = "application/json")) })
+	@GetMapping("/class")
+	@ResponseStatus(code = HttpStatus.OK)
+	List<Player> getPlayersByClassYear(Year year);
 
 }
