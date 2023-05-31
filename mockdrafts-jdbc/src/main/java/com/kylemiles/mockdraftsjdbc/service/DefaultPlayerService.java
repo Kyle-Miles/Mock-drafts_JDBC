@@ -98,4 +98,12 @@ public class DefaultPlayerService implements PlayerService {
 		return players;
 	}
 
+	@Override
+	public void deletePlayerByClassYear(Year year) {
+		log.info("Service delete Players");
+		
+		playerDao.deletePlayerByClassYear(year);
+		
+	}
+
 }

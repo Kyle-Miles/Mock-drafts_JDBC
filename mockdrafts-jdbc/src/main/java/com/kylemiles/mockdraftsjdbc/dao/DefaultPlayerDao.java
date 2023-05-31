@@ -295,4 +295,23 @@ public class DefaultPlayerDao implements PlayerDao {
 		});
 	}
 
+	@Override
+	public void deletePlayerByClassYear(Year year) {
+		log.info("Dao delete Players");
+		
+		String sql = "DELETE FROM player "
+				+ "WHERE class_year = :class_year";
+		
+		Map <String, Object> params = new HashMap<>();
+		
+		params.put("class_year", year.ordinal()+1);
+		
+		if (jdbcTemplate.update(sql, params) == 0) {
+			throw new NoSuchElementException("Delete failed... players with class year: " + year + " doesn't exist... ");
+		} else {
+			System.out.println("Players with class year: " + year + " were successfully deleted! ");
+		}
+		
+	}
+
 }

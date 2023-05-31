@@ -27,4 +27,6 @@ public interface PlayerDao {
 
 	List<Player> getPlayersByClassYear(Year year);
 
+	void deletePlayerByClassYear(Year year);
+
 }

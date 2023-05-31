@@ -79,4 +79,11 @@ public class DefaultPlayerController implements PlayerController {
 		return playerService.getPlayersByClassYear(year);
 	}
 
+	@Override
+	public void deletePlayerByClassYear(Year year) {
+		log.info("Controller delete Players");
+		playerService.deletePlayerByClassYear(year);
+		
+	}
+
 }

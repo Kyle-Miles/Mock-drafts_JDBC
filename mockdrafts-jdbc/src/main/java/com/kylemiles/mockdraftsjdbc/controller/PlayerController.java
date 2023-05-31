@@ -124,5 +124,17 @@ public interface PlayerController {
 	@GetMapping("/class")
 	@ResponseStatus(code = HttpStatus.OK)
 	List<Player> getPlayersByClassYear(Year year);
+	
+	@Operation(summary = "Deletes Players by class year", description = "Deletes Players", responses = {
+			@ApiResponse(responseCode = "200", description = "Players are deleted", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Player.class))),
+			@ApiResponse(responseCode = "400", description = "The request parameter is invalid", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "403", description = "The current user is forbidden from this operation", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "404", description = "No players were found with the input criteria", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "500", description = "An unplanned error occured.", content = @Content(mediaType = "application/json")) }
+
+	)
+	@DeleteMapping("/class")
+	@ResponseStatus(code = HttpStatus.OK, reason = "Players deleted... ")
+	void deletePlayerByClassYear(Year year);
 
 }

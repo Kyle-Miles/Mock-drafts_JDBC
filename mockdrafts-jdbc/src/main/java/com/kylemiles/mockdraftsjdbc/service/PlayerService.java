@@ -27,4 +27,6 @@ public interface PlayerService {
 	
 	List<Player> getPlayersByClassYear(Year year);
 
+	void deletePlayerByClassYear(Year year);
+
 }
