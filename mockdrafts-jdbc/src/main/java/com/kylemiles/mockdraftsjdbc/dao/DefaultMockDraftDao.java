@@ -243,7 +243,7 @@ public class DefaultMockDraftDao implements MockDraftDao {
 								.playerPK(rs.getLong("player_pk"))
 								.playerName(rs.getString("player_name"))
 								.position(Position.valueOf(rs.getString("position")))
-								.college(rs.getString("college"))
+			    					.college(rs.getString("college"))
 								.rank(rs.getInt("ovr_rank"))
 								.year(rs.getInt("class_year"))
 								.build())
