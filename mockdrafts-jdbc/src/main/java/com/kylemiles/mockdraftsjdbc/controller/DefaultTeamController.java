@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kylemiles.mockdraftsjdbc.entity.Team;
-import com.kylemiles.mockdraftsjdbc.entity.TeamNeeds;
+import com.kylemiles.mockdraftsjdbc.model.entity.Team;
+import com.kylemiles.mockdraftsjdbc.model.entity.TeamNeeds;
 import com.kylemiles.mockdraftsjdbc.service.TeamService;
 
 import lombok.extern.slf4j.Slf4j;

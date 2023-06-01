@@ -2,12 +2,12 @@ package com.kylemiles.mockdraftsjdbc.dao;
 
 import java.util.List;
 
-import com.kylemiles.mockdraftsjdbc.dto.MockDraftDTO;
-import com.kylemiles.mockdraftsjdbc.dto.MockDraftDTOById;
-import com.kylemiles.mockdraftsjdbc.entity.MockDraft;
-import com.kylemiles.mockdraftsjdbc.entity.Pick;
-import com.kylemiles.mockdraftsjdbc.entity.Round;
-import com.kylemiles.mockdraftsjdbc.entity.TeamName;
+import com.kylemiles.mockdraftsjdbc.model.dto.MockDraftDTO;
+import com.kylemiles.mockdraftsjdbc.model.dto.MockDraftDTOById;
+import com.kylemiles.mockdraftsjdbc.model.entity.MockDraft;
+import com.kylemiles.mockdraftsjdbc.model.entity.Pick;
+import com.kylemiles.mockdraftsjdbc.model.entity.Round;
+import com.kylemiles.mockdraftsjdbc.model.entity.TeamName;
 
 public interface MockDraftDao {
 
@@ -20,5 +20,9 @@ public interface MockDraftDao {
 	MockDraftDTO updateMockDraft(Long id, TeamName team, Round round, Pick pick, int rank);
 
 	List<MockDraft> getMockDraftByTeamName(TeamName team);
+
+	List<MockDraft> getMockDraftByRoundAndPick(Round round, Pick pick);
+
+	List<MockDraft> getMockDraftByRound(Round round);
 
 }

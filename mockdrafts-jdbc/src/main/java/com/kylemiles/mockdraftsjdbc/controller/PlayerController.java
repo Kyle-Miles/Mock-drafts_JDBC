@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.kylemiles.mockdraftsjdbc.dto.PlayerDTO;
-import com.kylemiles.mockdraftsjdbc.entity.Player;
-import com.kylemiles.mockdraftsjdbc.entity.Position;
-import com.kylemiles.mockdraftsjdbc.entity.Year;
+import com.kylemiles.mockdraftsjdbc.model.dto.PlayerDTO;
+import com.kylemiles.mockdraftsjdbc.model.entity.Player;
+import com.kylemiles.mockdraftsjdbc.model.entity.Position;
+import com.kylemiles.mockdraftsjdbc.model.entity.Year;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;

@@ -9,9 +9,9 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import com.kylemiles.mockdraftsjdbc.entity.Draft;
-import com.kylemiles.mockdraftsjdbc.entity.Pick;
-import com.kylemiles.mockdraftsjdbc.entity.Round;
+import com.kylemiles.mockdraftsjdbc.model.entity.Draft;
+import com.kylemiles.mockdraftsjdbc.model.entity.Pick;
+import com.kylemiles.mockdraftsjdbc.model.entity.Round;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,6 +21,11 @@ public class DefaultDraftDao implements DraftDao {
 	
 	@Autowired
 	private NamedParameterJdbcTemplate jdbcTemplate;
+
+	public DefaultDraftDao(NamedParameterJdbcTemplate jdbcTemplate) {
+		super();
+		this.jdbcTemplate = jdbcTemplate;
+	}
 
 	@Override
 	public List<Draft> getDrafts() {

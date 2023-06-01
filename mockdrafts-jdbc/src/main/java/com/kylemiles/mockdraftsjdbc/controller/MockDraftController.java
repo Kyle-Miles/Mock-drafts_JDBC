@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.kylemiles.mockdraftsjdbc.dto.MockDraftDTO;
-import com.kylemiles.mockdraftsjdbc.dto.MockDraftDTOById;
-import com.kylemiles.mockdraftsjdbc.entity.MockDraft;
-import com.kylemiles.mockdraftsjdbc.entity.Pick;
-import com.kylemiles.mockdraftsjdbc.entity.Round;
-import com.kylemiles.mockdraftsjdbc.entity.TeamName;
+import com.kylemiles.mockdraftsjdbc.model.dto.MockDraftDTO;
+import com.kylemiles.mockdraftsjdbc.model.dto.MockDraftDTOById;
+import com.kylemiles.mockdraftsjdbc.model.entity.MockDraft;
+import com.kylemiles.mockdraftsjdbc.model.entity.Pick;
+import com.kylemiles.mockdraftsjdbc.model.entity.Round;
+import com.kylemiles.mockdraftsjdbc.model.entity.TeamName;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
@@ -78,6 +78,26 @@ public interface MockDraftController {
 	@GetMapping("/team")
 	@ResponseStatus(code = HttpStatus.OK)
 	List<MockDraft> getMockDraftsByTeamName(TeamName team);
+	
+	@Operation(summary = "Return a Mock Draft by Round and Pick", description = "Returns a list of Mock Drafts", responses = {
+			@ApiResponse(responseCode = "200", description = "A list of Mock Drafts is returned", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MockDraft.class))),
+			@ApiResponse(responseCode = "400", description = "The request parameter is invalid", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "403", description = "The current user is forbidden from this operation", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "404", description = "No Mock Drafts were found with the input criteria", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "500", description = "An unplanned error occured.", content = @Content(mediaType = "application/json")) })
+	@GetMapping("/round_and_pick")
+	@ResponseStatus(code = HttpStatus.OK)
+	List<MockDraft> getMockDraftsByRoundAndPick(Round round, Pick pick);
+	
+	@Operation(summary = "Return a Mock Draft by Round", description = "Returns a list of Mock Drafts", responses = {
+			@ApiResponse(responseCode = "200", description = "A list of Mock Drafts is returned", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MockDraft.class))),
+			@ApiResponse(responseCode = "400", description = "The request parameter is invalid", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "403", description = "The current user is forbidden from this operation", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "404", description = "No Mock Drafts were found with the input criteria", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "500", description = "An unplanned error occured.", content = @Content(mediaType = "application/json")) })
+	@GetMapping("/round")
+	@ResponseStatus(code = HttpStatus.OK)
+	List<MockDraft> getMockDraftsByRound(Round round);
 
 
 }

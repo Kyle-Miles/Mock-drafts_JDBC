@@ -9,8 +9,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import com.kylemiles.mockdraftsjdbc.entity.Needs;
-import com.kylemiles.mockdraftsjdbc.entity.Position;
+import com.kylemiles.mockdraftsjdbc.model.entity.Needs;
+import com.kylemiles.mockdraftsjdbc.model.entity.Position;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,6 +20,11 @@ public class DefaultNeedsDao implements NeedsDao {
 	
 	@Autowired
 	private NamedParameterJdbcTemplate jdbcTemplate;
+
+	public DefaultNeedsDao(NamedParameterJdbcTemplate jdbcTemplate) {
+		super();
+		this.jdbcTemplate = jdbcTemplate;
+	}
 
 	@Override
 	public List<Needs> getNeeds() {

@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kylemiles.mockdraftsjdbc.entity.Needs;
+import com.kylemiles.mockdraftsjdbc.model.entity.Needs;
 import com.kylemiles.mockdraftsjdbc.service.NeedsService;
 
 import lombok.extern.slf4j.Slf4j;

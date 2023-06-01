@@ -17,10 +17,10 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
-import com.kylemiles.mockdraftsjdbc.dto.PlayerDTO;
-import com.kylemiles.mockdraftsjdbc.entity.Player;
-import com.kylemiles.mockdraftsjdbc.entity.Position;
-import com.kylemiles.mockdraftsjdbc.entity.Year;
+import com.kylemiles.mockdraftsjdbc.model.dto.PlayerDTO;
+import com.kylemiles.mockdraftsjdbc.model.entity.Player;
+import com.kylemiles.mockdraftsjdbc.model.entity.Position;
+import com.kylemiles.mockdraftsjdbc.model.entity.Year;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,6 +30,11 @@ public class DefaultPlayerDao implements PlayerDao {
 	
 	@Autowired
 	private NamedParameterJdbcTemplate jdbcTemplate;
+
+	public DefaultPlayerDao(NamedParameterJdbcTemplate jdbcTemplate) {
+		super();
+		this.jdbcTemplate = jdbcTemplate;
+	}
 
 	@Override
 	public List<Player> getPlayers() {
@@ -49,7 +54,7 @@ public class DefaultPlayerDao implements PlayerDao {
 						.position(Position.valueOf(rs.getString("position")))
 						.college(rs.getString("college"))
 						.rank(rs.getInt("ovr_rank"))
-						.year(rs.getString("class_year"))
+						.year(rs.getInt("class_year"))
 						.build();
 			}      
 		});
@@ -207,7 +212,7 @@ public class DefaultPlayerDao implements PlayerDao {
 					.position(Position.valueOf(rs.getString("position")))
 					.college(rs.getString("college"))
 					.rank(rs.getInt("ovr_rank"))
-					.year(rs.getString("class_year"))
+					.year(rs.getInt("class_year"))
 					.build();
 		}
 		
@@ -234,7 +239,7 @@ public class DefaultPlayerDao implements PlayerDao {
 						.position(Position.valueOf(rs.getString("position")))
 						.college(rs.getString("college"))
 						.rank(rs.getInt("ovr_rank"))
-						.year(rs.getString("class_year"))
+						.year(rs.getInt("class_year"))
 						.build();
 			}      
 		});
@@ -262,7 +267,7 @@ public class DefaultPlayerDao implements PlayerDao {
 						.position(Position.valueOf(rs.getString("position")))
 						.college(rs.getString("college"))
 						.rank(rs.getInt("ovr_rank"))
-						.year(rs.getString("class_year"))
+						.year(rs.getInt("class_year"))
 						.build();
 			}      
 		});
@@ -289,7 +294,7 @@ public class DefaultPlayerDao implements PlayerDao {
 						.position(Position.valueOf(rs.getString("position")))
 						.college(rs.getString("college"))
 						.rank(rs.getInt("ovr_rank"))
-						.year(rs.getString("class_year"))
+						.year(rs.getInt("class_year"))
 						.build();
 			}      
 		});

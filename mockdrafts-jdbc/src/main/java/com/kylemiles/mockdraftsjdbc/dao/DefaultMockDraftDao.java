@@ -18,19 +18,18 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
-
-import com.kylemiles.mockdraftsjdbc.dto.MockDraftDTO;
-import com.kylemiles.mockdraftsjdbc.dto.MockDraftDTOById;
-import com.kylemiles.mockdraftsjdbc.entity.Conference;
-import com.kylemiles.mockdraftsjdbc.entity.Division;
-import com.kylemiles.mockdraftsjdbc.entity.Draft;
-import com.kylemiles.mockdraftsjdbc.entity.MockDraft;
-import com.kylemiles.mockdraftsjdbc.entity.Pick;
-import com.kylemiles.mockdraftsjdbc.entity.Player;
-import com.kylemiles.mockdraftsjdbc.entity.Position;
-import com.kylemiles.mockdraftsjdbc.entity.Round;
-import com.kylemiles.mockdraftsjdbc.entity.Team;
-import com.kylemiles.mockdraftsjdbc.entity.TeamName;
+import com.kylemiles.mockdraftsjdbc.model.dto.MockDraftDTO;
+import com.kylemiles.mockdraftsjdbc.model.dto.MockDraftDTOById;
+import com.kylemiles.mockdraftsjdbc.model.entity.Conference;
+import com.kylemiles.mockdraftsjdbc.model.entity.Division;
+import com.kylemiles.mockdraftsjdbc.model.entity.Draft;
+import com.kylemiles.mockdraftsjdbc.model.entity.MockDraft;
+import com.kylemiles.mockdraftsjdbc.model.entity.Pick;
+import com.kylemiles.mockdraftsjdbc.model.entity.Player;
+import com.kylemiles.mockdraftsjdbc.model.entity.Position;
+import com.kylemiles.mockdraftsjdbc.model.entity.Round;
+import com.kylemiles.mockdraftsjdbc.model.entity.Team;
+import com.kylemiles.mockdraftsjdbc.model.entity.TeamName;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,7 +39,13 @@ public class DefaultMockDraftDao implements MockDraftDao {
 	
 	@Autowired
 	private NamedParameterJdbcTemplate jdbcTemplate;
+	
 	private DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	
+	public DefaultMockDraftDao(NamedParameterJdbcTemplate jdbcTemplate) {
+		super();
+		this.jdbcTemplate = jdbcTemplate;
+	}
 
 	@Override
 	public List<MockDraft> getMockDrafts() {
@@ -79,7 +84,7 @@ public class DefaultMockDraftDao implements MockDraftDao {
 								.position(Position.valueOf(rs.getString("position")))
 								.college(rs.getString("college"))
 								.rank(rs.getInt("ovr_rank"))
-								.year(rs.getString("class_year"))
+								.year(rs.getInt("class_year"))
 								.build())
 						.build();
 			}
@@ -240,7 +245,105 @@ public class DefaultMockDraftDao implements MockDraftDao {
 								.position(Position.valueOf(rs.getString("position")))
 								.college(rs.getString("college"))
 								.rank(rs.getInt("ovr_rank"))
-								.year(rs.getString("class_year"))
+								.year(rs.getInt("class_year"))
+								.build())
+						.build();
+			}
+		});
+	}
+
+
+	@Override
+	public List<MockDraft> getMockDraftByRoundAndPick(Round round, Pick pick) {
+		String sql = "SELECT * FROM mock_draft md "
+				+ "INNER JOIN team t "
+				+ "ON md.team_pk = t.team_pk "
+				+ "INNER JOIN draft d "
+				+ "ON md.draft_pk = d.draft_pk "
+				+ "INNER JOIN player p "
+				+ "ON md.player_pk = p.player_pk "
+				+ "WHERE md.draft_pk = ANY "
+				+ "(SELECT d.draft_pk FROM draft d "
+				+ "WHERE d.round = :round AND d.pick = :pick)";
+		
+		Map<String, Object> params = new HashMap<>();
+		params.put("round", round.toString());
+		params.put("pick", pick.toString());
+		
+		return jdbcTemplate.query(sql, params, new RowMapper<>() {
+			@Override
+			public MockDraft mapRow(ResultSet rs, int rowNum) throws SQLException {
+				
+				
+				return MockDraft.builder()
+						.mockDraftPK(rs.getLong("mock_draft_pk"))
+						.published(LocalDateTime.parse(rs.getString("published"), format))
+						.team(Team.builder()
+								.teamPK(rs.getLong("team_pk"))
+								.teamname(TeamName.valueOf(rs.getString("team_name")))
+								.teamConference(Conference.valueOf(rs.getString("team_conference")))
+								.teamDivision(Division.valueOf(rs.getString("team_division")))
+								.build())
+						.draft(Draft.builder()
+								.draftPK(rs.getLong("draft_pk"))
+								.round(Round.valueOf(rs.getString("round")))
+								.pick(Pick.valueOf(rs.getString("pick")))
+								.build())
+						.player(Player.builder()
+								.playerPK(rs.getLong("player_pk"))
+								.playerName(rs.getString("player_name"))
+								.position(Position.valueOf(rs.getString("position")))
+								.college(rs.getString("college"))
+								.rank(rs.getInt("ovr_rank"))
+								.year(rs.getInt("class_year"))
+								.build())
+						.build();
+			}
+		});
+	}
+	
+	@Override
+	public List<MockDraft> getMockDraftByRound(Round round) {
+		String sql = "SELECT * FROM mock_draft md "
+				+ "INNER JOIN team t "
+				+ "ON md.team_pk = t.team_pk "
+				+ "INNER JOIN draft d "
+				+ "ON md.draft_pk = d.draft_pk "
+				+ "INNER JOIN player p "
+				+ "ON md.player_pk = p.player_pk "
+				+ "WHERE md.draft_pk = ANY "
+				+ "(SELECT d.draft_pk FROM draft d "
+				+ "WHERE d.round = :round)";
+		
+		Map<String, Object> params = new HashMap<>();
+		params.put("round", round.toString());
+		
+		return jdbcTemplate.query(sql, params, new RowMapper<>() {
+			@Override
+			public MockDraft mapRow(ResultSet rs, int rowNum) throws SQLException {
+				
+				
+				return MockDraft.builder()
+						.mockDraftPK(rs.getLong("mock_draft_pk"))
+						.published(LocalDateTime.parse(rs.getString("published"), format))
+						.team(Team.builder()
+								.teamPK(rs.getLong("team_pk"))
+								.teamname(TeamName.valueOf(rs.getString("team_name")))
+								.teamConference(Conference.valueOf(rs.getString("team_conference")))
+								.teamDivision(Division.valueOf(rs.getString("team_division")))
+								.build())
+						.draft(Draft.builder()
+								.draftPK(rs.getLong("draft_pk"))
+								.round(Round.valueOf(rs.getString("round")))
+								.pick(Pick.valueOf(rs.getString("pick")))
+								.build())
+						.player(Player.builder()
+								.playerPK(rs.getLong("player_pk"))
+								.playerName(rs.getString("player_name"))
+								.position(Position.valueOf(rs.getString("position")))
+								.college(rs.getString("college"))
+								.rank(rs.getInt("ovr_rank"))
+								.year(rs.getInt("class_year"))
 								.build())
 						.build();
 			}

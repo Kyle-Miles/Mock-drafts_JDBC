@@ -5,12 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kylemiles.mockdraftsjdbc.dto.MockDraftDTO;
-import com.kylemiles.mockdraftsjdbc.dto.MockDraftDTOById;
-import com.kylemiles.mockdraftsjdbc.entity.MockDraft;
-import com.kylemiles.mockdraftsjdbc.entity.Pick;
-import com.kylemiles.mockdraftsjdbc.entity.Round;
-import com.kylemiles.mockdraftsjdbc.entity.TeamName;
+import com.kylemiles.mockdraftsjdbc.model.dto.MockDraftDTO;
+import com.kylemiles.mockdraftsjdbc.model.dto.MockDraftDTOById;
+import com.kylemiles.mockdraftsjdbc.model.entity.MockDraft;
+import com.kylemiles.mockdraftsjdbc.model.entity.Pick;
+import com.kylemiles.mockdraftsjdbc.model.entity.Round;
+import com.kylemiles.mockdraftsjdbc.model.entity.TeamName;
 import com.kylemiles.mockdraftsjdbc.service.MockDraftService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -54,6 +54,18 @@ public class DefaultMockDraftController implements MockDraftController {
 	public List<MockDraft> getMockDraftsByTeamName(TeamName team) {
 		log.info("Controller fetch Mock Drafts");
 		return draftService.getMockDraftsByTeamName(team);
+	}
+
+	@Override
+	public List<MockDraft> getMockDraftsByRoundAndPick(Round round, Pick pick) {
+		log.info("Controller fetch Mock Drafts");
+		return draftService.getMockDraftsByRoundAndPick(round, pick);
+	}
+
+	@Override
+	public List<MockDraft> getMockDraftsByRound(Round round) {
+		log.info("Controller fetch Mock Drafts");
+		return draftService.getMockDraftByRound(round);
 	}
 
 }

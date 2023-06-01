@@ -1,0 +1,47 @@
+package com.kylemiles.mockdraftsjdbc.dao;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Component;
+
+import com.kylemiles.mockdraftsjdbc.entity.Needs;
+import com.kylemiles.mockdraftsjdbc.entity.Position;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Component
+@Slf4j
+public class DefaultNeedsDao implements NeedsDao {
+	
+	@Autowired
+	private NamedParameterJdbcTemplate jdbcTemplate;
+
+	public DefaultNeedsDao(NamedParameterJdbcTemplate jdbcTemplate) {
+		super();
+		this.jdbcTemplate = jdbcTemplate;
+	}
+
+	@Override
+	public List<Needs> getNeeds() {
+		log.info("Dao fetch Needs");
+		
+		String sql = "SELECT * FROM needs";
+		
+		return jdbcTemplate.query(sql, new RowMapper<>() {
+			@Override
+			public Needs mapRow(ResultSet rs, int rowNum) throws SQLException {
+				
+				return Needs.builder()
+						.needsPK(rs.getLong("needs_pk"))
+						.position(Position.valueOf(rs.getString("position")))
+						.build();
+			}
+		});
+	}
+
+}

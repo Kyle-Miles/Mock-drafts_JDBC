@@ -1,5 +1,0 @@
-package com.kylemiles.mockdraftsjdbc.controller;
-
-public interface MockDraftController {
-
-}

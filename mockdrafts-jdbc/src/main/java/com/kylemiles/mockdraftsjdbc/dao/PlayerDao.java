@@ -2,10 +2,10 @@ package com.kylemiles.mockdraftsjdbc.dao;
 
 import java.util.List;
 
-import com.kylemiles.mockdraftsjdbc.dto.PlayerDTO;
-import com.kylemiles.mockdraftsjdbc.entity.Player;
-import com.kylemiles.mockdraftsjdbc.entity.Position;
-import com.kylemiles.mockdraftsjdbc.entity.Year;
+import com.kylemiles.mockdraftsjdbc.model.dto.PlayerDTO;
+import com.kylemiles.mockdraftsjdbc.model.entity.Player;
+import com.kylemiles.mockdraftsjdbc.model.entity.Position;
+import com.kylemiles.mockdraftsjdbc.model.entity.Year;
 
 public interface PlayerDao {
 

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kylemiles.mockdraftsjdbc.dao.NeedsDao;
-import com.kylemiles.mockdraftsjdbc.entity.Needs;
+import com.kylemiles.mockdraftsjdbc.model.entity.Needs;
 
 import lombok.extern.slf4j.Slf4j;
 

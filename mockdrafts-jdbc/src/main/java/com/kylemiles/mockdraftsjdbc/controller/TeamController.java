@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.kylemiles.mockdraftsjdbc.entity.Team;
-import com.kylemiles.mockdraftsjdbc.entity.TeamNeeds;
+import com.kylemiles.mockdraftsjdbc.model.entity.Team;
+import com.kylemiles.mockdraftsjdbc.model.entity.TeamNeeds;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;

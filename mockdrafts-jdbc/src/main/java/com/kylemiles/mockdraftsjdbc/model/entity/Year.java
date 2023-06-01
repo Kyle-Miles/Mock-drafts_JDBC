@@ -1,0 +1,21 @@
+package com.kylemiles.mockdraftsjdbc.model.entity;
+
+
+public enum Year {
+	CLASS_OF_2023(2023), CLASS_OF_2024(2024);
+
+	private int value;
+	
+	Year (int value) {
+		this.value = value;
+	}
+
+	public int getValue() {
+		return value;
+	}
+	
+	public void setValue(int value) {
+		this.value = value;
+	}
+
+}

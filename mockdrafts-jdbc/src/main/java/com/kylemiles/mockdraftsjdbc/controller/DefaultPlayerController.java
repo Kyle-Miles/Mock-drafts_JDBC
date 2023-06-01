@@ -5,10 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kylemiles.mockdraftsjdbc.dto.PlayerDTO;
-import com.kylemiles.mockdraftsjdbc.entity.Player;
-import com.kylemiles.mockdraftsjdbc.entity.Position;
-import com.kylemiles.mockdraftsjdbc.entity.Year;
+import com.kylemiles.mockdraftsjdbc.model.dto.PlayerDTO;
+import com.kylemiles.mockdraftsjdbc.model.entity.Player;
+import com.kylemiles.mockdraftsjdbc.model.entity.Position;
+import com.kylemiles.mockdraftsjdbc.model.entity.Year;
 import com.kylemiles.mockdraftsjdbc.service.PlayerService;
 
 import lombok.extern.slf4j.Slf4j;

@@ -10,14 +10,13 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
-
-import com.kylemiles.mockdraftsjdbc.entity.Conference;
-import com.kylemiles.mockdraftsjdbc.entity.Division;
-import com.kylemiles.mockdraftsjdbc.entity.Needs;
-import com.kylemiles.mockdraftsjdbc.entity.Position;
-import com.kylemiles.mockdraftsjdbc.entity.Team;
-import com.kylemiles.mockdraftsjdbc.entity.TeamName;
-import com.kylemiles.mockdraftsjdbc.entity.TeamNeeds;
+import com.kylemiles.mockdraftsjdbc.model.entity.Conference;
+import com.kylemiles.mockdraftsjdbc.model.entity.Division;
+import com.kylemiles.mockdraftsjdbc.model.entity.Needs;
+import com.kylemiles.mockdraftsjdbc.model.entity.Position;
+import com.kylemiles.mockdraftsjdbc.model.entity.Team;
+import com.kylemiles.mockdraftsjdbc.model.entity.TeamName;
+import com.kylemiles.mockdraftsjdbc.model.entity.TeamNeeds;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,6 +26,11 @@ public class DefaultTeamDao implements TeamDao {
 	
 	@Autowired
 	private NamedParameterJdbcTemplate jdbcTemplate;
+
+	public DefaultTeamDao(NamedParameterJdbcTemplate jdbcTemplate) {
+		super();
+		this.jdbcTemplate = jdbcTemplate;
+	}
 
 	@Override
 	public List<TeamNeeds> getTeamNeeds() {

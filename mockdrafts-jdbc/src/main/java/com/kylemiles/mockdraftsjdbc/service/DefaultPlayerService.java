@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kylemiles.mockdraftsjdbc.dao.PlayerDao;
-import com.kylemiles.mockdraftsjdbc.dto.PlayerDTO;
-import com.kylemiles.mockdraftsjdbc.entity.Player;
-import com.kylemiles.mockdraftsjdbc.entity.Position;
-import com.kylemiles.mockdraftsjdbc.entity.Year;
+import com.kylemiles.mockdraftsjdbc.model.dto.PlayerDTO;
+import com.kylemiles.mockdraftsjdbc.model.entity.Player;
+import com.kylemiles.mockdraftsjdbc.model.entity.Position;
+import com.kylemiles.mockdraftsjdbc.model.entity.Year;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -2,7 +2,7 @@ package com.kylemiles.mockdraftsjdbc.service;
 
 import java.util.List;
 
-import com.kylemiles.mockdraftsjdbc.entity.Draft;
+import com.kylemiles.mockdraftsjdbc.model.entity.Draft;
 
 public interface DraftService {
 
